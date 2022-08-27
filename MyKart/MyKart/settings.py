@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+from email.message import EmailMessage
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -37,8 +38,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'home'
+    'crispy_forms',
+    
+    'home',
+    'category',
+    'account',
+    'store',
+    'owner',
 ]
+
+CRISPY_TEMPLATE_PACK = 'Bootstrap 5'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -63,12 +72,15 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'category.context_processors.menu_links',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'MyKart.wsgi.application'
+
+AUTH_USER_MODEL = 'account.Account'
 
 
 # Database
@@ -128,6 +140,28 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR /'static'
 STATICFILES_DIRS = ['MyKart/static',]
+
+#Media files configuration
+MEDIA_ROOT = '/media/'
+MEDIA_ROOT = BASE_DIR /'media'
+
+
+
+
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}
+
+
+#SMTP configuration
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'vigil1992@gmail.com'
+EMAIL_HOST_PASSWORD = 'jrva nvbs cdtj dxde'
+EMAIL_USE_TLS = True
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

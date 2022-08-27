@@ -1,0 +1,132 @@
+{% extends 'owner/ownerbase.html' %}
+{% load static %}
+
+{% block content %}
+
+
+      	<div class="pd-20 card-box mb-30">
+			<div class="clearfix mb-20">
+				<div class="pull-left">
+					<h2 class="h4 pd-20">Brand</h2>
+				</div>
+					<div class="pull-right">
+						<a
+							href="#basic-form1"
+							class="btn btn-primary btn-sm scroll-click"
+							rel="content-y"
+							data-toggle="collapse"
+							role="button"
+							><i class="bi bi-collection"></i> Add new Brand</a
+						>
+					</div>
+			</div>
+
+		<!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+						<div class="collapse collapse-box" id="basic-form1">
+							<div class="code-box">
+								<div class="clearfix">
+									
+									<a
+										href="#"
+										class="btn btn-primary btn-sm pull-right"
+										rel="content-y"
+										data-toggle="collapse"
+										role="button"
+										><i class="fa fa-eye-slash"></i> Hide Code</a
+									>
+								</div>
+								{% comment %} <pre> {% endcomment %}
+									<form method="POST" action={% url 'brand_add'%} enctype="multipart/form-data">
+										{% csrf_token %}
+										 <div class="form-group">  
+											{% comment %} col-sm-12 col-md-2 {% endcomment %}
+										{{form}}
+										 </div> 
+										<div class="form-group ">
+								
+											<button class="btn btn-primary btn-sm" type="submit">Register</button>
+
+											<a
+												href="#basic-form1"
+												class="btn btn-primary btn-sm pull-right"
+												rel="content-y"
+												data-toggle="collapse"
+												role="button"
+												><i class="fa fa-eye-slash"></i> Cancel</a
+											>
+										 </div> 
+										 
+
+									</form>
+								{% comment %} </pre> {% endcomment %}
+							</div>
+						</div>
+
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+				<div>
+					<table class="data-table table ">
+						<thead>
+							<tr>
+								<th class="table-plus datatable-nosort col-sm-3">Brand Logo</th>
+								<th class="col-sm-3">Brand Name</th>
+								<th class="col-sm">Description</th>
+								
+								<th class="datatable-nosort">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+                            {% for brand in brands %}
+							<tr>
+								<td class="table-plus">
+                                    
+                                    {% if brand.brand_logo.url is not None %}
+                                
+									<img
+										src="{{brand.brand_logo.url}}"
+										width="70"
+										height="70"
+										alt=""
+									/>
+                                    {% endif %}
+
+								</td>
+								<td>
+									<h5 class="font-16">{{ brand.brand_name }}</h5>
+									{{ brand.slug }}
+								</td>
+								<td>{{ brand.description}}</td>
+								
+								<td>
+									<div class="dropdown">
+										<a
+											class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle"
+											href="#"
+											role="button"
+											data-toggle="dropdown"
+										>
+											<i class="dw dw-more"></i>
+										</a>
+										<div
+											class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"
+										>
+											<a class="dropdown-item" href="{% url 'brand_edit' brand.id %}"  
+												><i class="dw dw-edit2"></i> Edit</a
+											>
+
+											<a class="dropdown-item" href="{% url 'brand_delete' brand.id %}"
+												><i class="dw dw-delete-3"></i> Delete</a
+											>
+										</div>
+									</div>
+								</td> 
+							</tr>
+                            {% endfor %}
+							
+						</tbody>
+					</table>
+				</div>
+
+				
+		</div>
+{% endblock %}

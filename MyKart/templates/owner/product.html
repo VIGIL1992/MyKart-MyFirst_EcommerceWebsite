@@ -1,0 +1,90 @@
+{% extends 'owner/ownerbase.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="card-box mb-30 pd-20">
+    {% comment %} <h2 class="h4 pd-20">All Products</h2> {% endcomment %}
+    <div class="clearfix mb-20">
+        <div class="pull-left">
+            <h2 class="h4 pd-20">All Products</h2>
+        </div>
+            <div class="pull-right">
+                <a
+                    href="{% url 'addnewproduct'  %}"
+                    class="btn btn-primary btn-sm scroll-click"
+                    rel="content-y"
+                    
+                    role="button"
+                    ><i class="bi bi-collection"></i> Add new product</a
+                >
+            </div>
+    </div>
+    <table class="data-table table nowrap">
+        <thead>
+            <tr>
+                <th class="table-plus datatable-nosort">Product</th>
+                <th>Name</th>
+                <th>Brand</th>
+                <th>Category</th> 
+                <th>Price</th>
+                <th>Stock </th>
+                
+                <th class="datatable-nosort">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                
+                <td class="table-plus">
+                    <img
+                        src="{{ product.images.url }}"
+                        width="70"
+                        height="70"
+                        alt=""
+                    />
+                </td>
+                <td>
+                    <h5 class="font-16">{{product.product_name}}</h5>
+                    
+                </td>
+                <td>{{product.brand}}</td>
+                <td>{{product.category}}</td>
+                <td>{{product.price}}</td>
+                <td>{{product.stock}}</td>
+                <td>
+                    <div class="dropdown">
+                        <a
+                            class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle"
+                            href="#"
+                            role="button"
+                            data-toggle="dropdown"
+                        >
+                            <i class="dw dw-more"></i>
+                        </a>
+                        <div
+                            class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"
+                        >
+                            
+                           
+                            <a class="dropdown-item" href="{% url 'product_edit' product.id %}"
+                                ><i class="dw dw-edit2"></i> Edit</a
+                            >
+                   
+                            <a class="dropdown-item" href="{% url 'deleteproduct' product.id %}"
+                                ><i class="dw dw-delete-3"></i> Delete</a
+                            >
+    
+                        </div>
+                    </div>
+                </td>
+                
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+</div>
+
+{% endblock  %}

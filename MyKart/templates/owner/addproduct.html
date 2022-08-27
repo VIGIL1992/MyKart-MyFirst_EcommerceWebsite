@@ -1,0 +1,31 @@
+{% extends 'owner/ownerbase.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<!-- Default Basic Forms Start -->
+					<div class="pd-20 card-box mb-30">
+						<div class="clearfix">
+							<div class="pull-left">
+								<h4 class="text-blue h4">Add product</h4>
+								<p class="mb-30">.....</p>
+							</div>
+						</div>
+
+						<form method='POST' action = '{% url 'addnewproduct' %}' enctype="multipart/form-data">
+							{% csrf_token %}
+							<div class="form-group">
+							 {{form.as_p}} 
+							</div>
+
+                            <div class="form-group row">
+								
+                                <button class="btn btn-primary btn-sm" type="submit">Register</button>
+                             </div> 
+							
+						</form>
+					</div>
+					
+					<!-- Default Basic Forms End -->
+{% endblock %}
