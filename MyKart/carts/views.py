@@ -1,8 +1,14 @@
+from itertools import product
 from django.shortcuts import render, redirect, get_object_or_404
 from store.models import Product, Variation
 from .models import Cart, CartItem
+from account.models import Address
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import never_cache
+from django.http import JsonResponse
+from coupon.models import Coupon, ReviewCoupon
+from datetime import date
 
 from django.http import HttpResponse
 
@@ -16,7 +22,7 @@ def _cart_id(request):                  # _cart_id is a private function
     return cart
 
 
-
+#This function will will add items to cart or increment
 def add_cart(request, product_id):
     current_user = request.user
     product = Product.objects.get(id=product_id) #get the product
@@ -136,7 +142,6 @@ def add_cart(request, product_id):
 
 
 def remove_cart(request, product_id, cart_item_id):
-
     product = get_object_or_404(Product, id=product_id)
     try:
         if request.user.is_authenticated:
@@ -153,6 +158,7 @@ def remove_cart(request, product_id, cart_item_id):
         pass
     return redirect('cart')
 
+##########
 # This function will remove cart items
 def remove_cart_item(request, product_id, cart_item_id):
     product = get_object_or_404(Product, id=product_id)
@@ -164,12 +170,25 @@ def remove_cart_item(request, product_id, cart_item_id):
     cart_item.delete()
     return redirect('cart')
 
-
-# This function will take to cart 
-
+def update_cart(request):
+    if request.method == 'POST':
+        prod_id = int(request.POST.get('product_id'))
+        # print("from cart: "+ str(prod_id))
+        if(CartItem.objects.filter(user=request.user, product__id=prod_id)):
+            # print( product_id )
+            # print(1)
+            prod_qty = int(request.POST.get('product_qty'))
+            cart = CartItem.objects.get(product__id=prod_id, user=request.user)
+            cart.quantity= prod_qty
+            cart.save()
+            return JsonResponse({'status': "Updated Successfully"})
+    return redirect('/')
+    # return redirect('cart')
+    
+##########
+# This function will take to cart  
 def cart(request, total=0, quantity=0, cart_items=None):
     # print('from cart 1') 
-    
     try:
         tax = 0
         amount = 0
@@ -203,7 +222,7 @@ def cart(request, total=0, quantity=0, cart_items=None):
     }
     return render(request, 'store/cart.html', context)
 
-
+# This function will take us to checkout
 @login_required(login_url='login')
 def checkout(request, total=0, quantity=0, cart_items=None):
     try:
@@ -217,18 +236,77 @@ def checkout(request, total=0, quantity=0, cart_items=None):
         for cart_item in cart_items:
             total += (cart_item.product.price * cart_item.quantity)
             quantity += cart_item.quantity
-        tax = (2 * total)/100
-        grand_total = total + tax
+        tax = (18 * total)/100
+        grand_total = total 
     except ObjectDoesNotExist:
         pass #just ignore
-
+    
+    addresses = Address.objects.filter(user=request.user)
+    # addresses = UserProfile.objects.filter(user=request.user)
     context = {
         'total': total,
         'quantity': quantity,
         'cart_items': cart_items,
         'tax'       : tax,
         'grand_total': grand_total,
+        'addresses' : addresses,
     }
     return render(request, 'store/checkout.html', context)
 
+############################################################
+# This function will check the coupen valid or not   #This function will apply coupon
+@never_cache
+@login_required(login_url="login")
+def Check_coupon(request):
 
+    if "coupon_code" in request.session:
+        del request.session["coupon_code"]
+        del request.session["amount_pay"]
+        
+    flag = 0
+    discount_price = 0
+    amount_pay = 0
+    coupon_code = request.POST.get("coupon_code")
+  
+    grand_total = float(request.POST.get("grand_total"))
+    print(coupon_code)
+    if Coupon.objects.filter(code=coupon_code, coupon_limit__gte=1).exists():
+        coupon = Coupon.objects.get(code=coupon_code)
+        print(coupon)
+        
+        if coupon.active == True:
+            flag = 1
+            if not ReviewCoupon.objects.filter(user=request.user, coupon=coupon):
+                today = date.today()
+
+                if coupon.valid_from <= today and coupon.valid_to >= today:
+                    discount_price = grand_total - coupon.discount
+
+                    amount_pay = grand_total - discount_price
+                    flag = 2
+                    request.session["amount_pay"] = amount_pay
+                    request.session["coupon_code"] = coupon_code
+                    request.session["discount_price"] = discount_price
+
+                    # Reduce Coupon Limit
+                    coupon.coupon_limit = coupon.coupon_limit - 1
+                    coupon.save()
+
+                    # Move to ReviewCoupon if all coupons are used
+                    if coupon.coupon_limit == 0:
+                        reviewcoupon = ReviewCoupon()
+                        reviewcoupon.user = request.user
+                        reviewcoupon.coupon = coupon
+                        reviewcoupon.save()
+                    
+                    
+
+
+    context = {
+        "amount_pay": amount_pay,
+        "flag": flag,
+        "discount_price": discount_price,
+        "coupon_code": coupon_code,
+    }
+
+    return JsonResponse(context)

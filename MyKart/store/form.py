@@ -1,5 +1,5 @@
 from django import forms
-from store.models import Product
+from store.models import Product, ProductGallery
 
 class ProductForm(forms.ModelForm):
     class Meta:
@@ -13,9 +13,7 @@ class ProductForm(forms.ModelForm):
             'price', 
             'stock',
             'images',
-            'image2',
-            'image3',
-            'image4',
+       
             
                 ]
         prepopulated_fields = {'slug': ('product_name',)}
@@ -31,7 +29,16 @@ class ProductForm(forms.ModelForm):
             'stock'         : forms.NumberInput(attrs={'class': 'form-control'}),
             
             'images'        : forms.FileInput(attrs={'class': 'form-control'}),
-            'image2'        : forms.FileInput(attrs={'class': 'form-control'}),
-            'image3'        : forms.FileInput(attrs={'class': 'form-control'}),
-            'image4'        : forms.FileInput(attrs={'class': 'form-control'}),
+            
+        }
+        
+class ProductGalleryForm(forms.ModelForm):
+    class Meta:
+        model = ProductGallery
+        fields = [
+            "product",
+            "image",
+        ]
+        widgets = {
+            'product':forms.Select(attrs={'class':'form-control'}),
         }

@@ -31,19 +31,17 @@
             </header>
             <div class="filter-content collapse show" id="collapse_1" style="">
                 <div class="card-body">
-                    
                     <ul class="list-menu">
                         <li><a href="{% url 'store' %}">All Product </a></li>
                         {% for category in links %}
                             <li><a href="{{ category.get_url }}">{{category.category_name}} </a></li>
                         {% endfor %}
                     </ul>
-    
                 </div> <!-- card-body.// -->
             </div>
         </article> <!-- filter-group  .// -->
 
-        <article class="filter-group">
+        {% comment %} <article class="filter-group">
             <header class="card-header">
                 <a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="">
                     <i class="icon-control fa fa-chevron-down"></i>
@@ -55,16 +53,16 @@
                     
                     <ul class="list-menu">
                         <li><a href="{% url 'store' %}">All Brands </a></li>
-                        {% for category in links %}
-                            <li><a href="{{ category.get_url }}">{{category.category_name}} </a></li>
+                        {% for brand in brands %}
+                            <li><a href="{{ brand.get_url }}">{{brand.brand_name}} </a></li>
                         {% endfor %}
                     </ul>
     
                 </div> <!-- card-body.// -->
             </div>
-        </article> <!-- filter-group  .// -->
+        </article> <!-- filter-group  .// --> {% endcomment %}
 
-        <article class="filter-group">
+        {% comment %} <article class="filter-group">
             <header class="card-header">
                 <a href="#" data-toggle="collapse" data-target="#collapse_4" aria-expanded="true" class="">
                     <i class="icon-control fa fa-chevron-down"></i>
@@ -94,9 +92,9 @@
                   </label>
             </div><!-- card-body.// -->
             </div>
-        </article> <!-- filter-group .// -->
+        </article> <!-- filter-group .// --> {% endcomment %}
         
-        <article class="filter-group">
+        {% comment %} <article class="filter-group">
             <header class="card-header">
                 <a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="true" class="">
                     <i class="icon-control fa fa-chevron-down"></i>
@@ -136,7 +134,7 @@
                     <button class="btn btn-block btn-primary">Apply</button>
                 </div><!-- card-body.// -->
             </div>
-        </article> <!-- filter-group .// -->
+        </article> <!-- filter-group .// --> {% endcomment %}
         
     </div> <!-- card.// -->
     
@@ -153,7 +151,7 @@
     <div class="row">
         {% if products %}
             {% for product in products %}
-            <div class="col-md-4">
+            <div class="col-md-4" >
                 <figure class="card card-product-grid">
                     <div class="img-wrap"> 
                     <a href="{{product.get_url}}">" 
@@ -162,13 +160,17 @@
                     </div> <!-- img-wrap.// -->
                     <figcaption class="info-wrap">
                         <div class="fix-height">
-                            <a href="{{product.get_url}}" class="title">{{product.product_name}}</a>
+                            <div >
+                                <a href="{{product.get_url}}" class="title">{{product.product_name}}</a>
+                            </div>
                             <div class="price-wrap mt-2">
                                 <span class="price">{{product.price}}</span>
                                 {% comment %} <del class="price-old">{{product.price}}</del> {% endcomment %}
                             </div> <!-- price-wrap.// -->
+                        </div><br> 
+                        <div >
+                            <a href="{{product.get_url}}" class="btn btn-block btn-primary">View Details </a>
                         </div>
-                        <a href="{{product.get_url}}" class="btn btn-block btn-primary">View Details </a>
                     </figcaption>
                 </figure>
             </div> <!-- col.// -->

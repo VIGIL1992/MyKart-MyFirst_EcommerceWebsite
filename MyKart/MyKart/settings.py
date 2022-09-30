@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from email.message import EmailMessage
 from pathlib import Path
+# from decouple import config
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,10 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-t$6^h3^u!m68#m0)ev*qfq!kh*t_%2y#*a(u!sogit_s14czgx'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -47,9 +49,12 @@ INSTALLED_APPS = [
     'owner',
     'carts',
     'orders',
+    'coupon',
+    # 'admin_honeypot',
+    
 ]
 
-CRISPY_TEMPLATE_PACK = 'Bootstrap 5'
+# CRISPY_TEMPLATE_PACK = 'Bootstrap 5'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -93,13 +98,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         
-        'NAME': 'MyKart',
+        'NAME': config('DB_NAME'),
         
-        'USER': 'postgres',
+        'USER': config('DB_USER'),
 
-        'PASSWORD': 'admin',
+        'PASSWORD': config('DB_PASSWORD'),
 
-        'HOST': 'localhost',
+        'HOST': config('HOST'),
 
         'PORT': '5432',
     }
@@ -130,7 +135,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -150,7 +155,7 @@ MEDIA_ROOT = BASE_DIR /'media'
 
 
 
-
+#For showing error messages
 from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
@@ -158,11 +163,11 @@ MESSAGE_TAGS = {
 
 
 #SMTP configuration
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'vigil1992@gmail.com'
-EMAIL_HOST_PASSWORD = 'jrva nvbs cdtj dxde'
-EMAIL_USE_TLS = True
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_PORT = config("EMAIL_PORT",cast=int)
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", default=True, cast=bool)
 
 
 
@@ -170,3 +175,14 @@ EMAIL_USE_TLS = True
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+#Razorpay 
+RAZOR_KEY_ID = config('RAZOR_KEY_ID')
+RAZOR_KEY_SECRET = config('RAZOR_KEY_SECRET')
+
+# ACCOUNT_SID = config("ACCOUNT_SID")
+# AUTH_TOKEN = config("AUTH_TOKEN")
+# SERVICES_KEY_OTP = config("SERVICES_KEY_OTP")
+
+#PAYPAL

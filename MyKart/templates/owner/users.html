@@ -5,15 +5,15 @@
 
 <div class="card-box mb-30">
     <h2 class="h4 pd-20">All users</h2>
-    <table class="data-table table nowrap">
+    <table class="data-table table" id="myTable">
         <thead>
             <tr>
                 {% comment %} <th class="table-plus datatable-nosort">Product</th> {% endcomment %}
-                <th>Name</th>
+                <th class="col-md-3">Name</th>
               <!-- <th>Email</th> --> 
-                <th >Phone Number</th>
-                <th>Last login</th>
-                <th>Is active</th>
+                <th class="col-md-2">Phone Number</th>
+                <th class="col-md-3">Last login</th>
+                <th class="col-md-2">Is active</th>
                 <th class="">Action</th>
             </tr>
         </thead>
@@ -84,5 +84,8 @@
 
 
 </div>
+
+
+
 
 {% endblock  %}

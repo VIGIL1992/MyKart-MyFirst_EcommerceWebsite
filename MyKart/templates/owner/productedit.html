@@ -7,33 +7,32 @@
 
 
 <!-- Default Basic Forms Start -->
-					<div class="pd-20 card-box mb-30">
-						<div class="clearfix">
-							<div class="pull-left">
-								<h4 class="text-blue h4">Update Product</h4>
-								<p class="mb-30">.....</p>
-							</div>
-						</div>
-
-						{% comment %} <form method='POST' action = '{% url 'addnewproduct' %}' enctype="multipart/form-data">
-							{% csrf_token %}
-							<div class="col-sm-12 col-md-2">
-							 {{form}} 
-							</div>
-                            <div class="form-group row">
-								
-                                <button class="btn btn-primary" type="submit">Register</button>
-                             </div> 
-							
-						</form> {% endcomment %}
-                        <form action="" method="POST">
-                            {% csrf_token %}
-                            <div class="">
-                            {{pro_id}}
-                            </div>
-                            <input type="submit" class="btn btn-primary btn-sm">
-                        </form>
-                    </div>
+	<div class="pd-20 card-box mb-30">
+		<div class="clearfix">
+			<div class="pull-left">
+				<h4 class="text-blue h4">Update Product</h4>
+				<p class="mb-30">.....</p>
+			</div>
+		</div>
+		{% comment %} <form method='POST' action = '{% url 'addnewproduct' %}' enctype="multipart/form-data">
+			{% csrf_token %}
+			<div class="col-sm-12 col-md-2">
+			 {{form}} 
+			</div>
+            <div class="form-group row">
+				
+                <button class="btn btn-primary" type="submit">Register</button>
+             </div> 
+			
+		</form> {% endcomment %}
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class="">
+            {{pro_id}}
+            </div>
+            <input type="submit" class="btn btn-primary btn-sm">
+        </form>
+    </div>
 
 
 

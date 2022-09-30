@@ -23,6 +23,7 @@ from django.conf import settings
 
 
 urlpatterns = [
+    # path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
     path('store/', include('store.urls')),
@@ -31,6 +32,10 @@ urlpatterns = [
     
     path('account/', include('account.urls')),
     
+    path('orders/', include('orders.urls')),
+    
     path('owner/', include('owner.urls')),
+    
+    
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<section class="section-conten padding-y bg">
+
+	{% include 'includes/alerts.html' %}
+	<div class="container">
+		<div class="row">
+			{% include 'includes/user_dashboard_sidebar.html' %}
+			<main class="col-md-9">
+				<article class="card">
+					<header class="card-header">
+						<strong class="d-inline-block mr-3">Your order history</strong>
+
+					</header>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-12">
+								<table class="data-table table-hover" id="myTable">
+									<thead>
+										<tr>
+											<th scope="col">Order #</th>
+											<th scope="col">Billing Name</th>
+											<th scope="col">Phone</th>
+											<th scope="col">Order Total</th>
+											<th scope="col">Date</th>
+											<th scope="col">Payment ID</th>
+											<th scope="col">Status</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for orderproduct in orderproducts %}
+											<tr>
+												<th scope="row"><a href="{% url 'order_detail' orderproduct.order.order_number %}">{{orderproduct.order.order_number}}</a></th>
+												{% comment %} <th scope="row"><a href="#">{{order.order_number}}</a></th> {% endcomment %}
+												<td>{{orderproduct.order.full_name}}</td>
+												<td>{{orderproduct.order.phone}}</td>
+												<td>₹{{orderproduct.order.order_total}}</td>
+												<td>{{orderproduct.order.created_at}}</td>
+												<td>{{orderproduct.order.payment}}</td>
+												{% if orderproduct.status == 'New' %}
+													<td>
+														{% comment %} <a href="{%  url 'cancel_order' orderproduct.id %}" 
+															onclick="return confirm('Are you sure you want to cancel this order?')"
+															class="btn btn-sm btn-outline-danger" >
+															Cancel
+														</a> {% endcomment %}
+														<button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#exampleModalCenter">
+															Cancel
+														</button>
+													</td>
+												{% elif orderproduct.status == 'Cancelled' %}
+													<td><button class="btn btn-sm btn-warning" disabled>Cancelled</button></td>
+												{% elif orderproduct.status == 'Placed' %}
+													<td>
+														{% comment %} <a href="{%  url 'cancel_order' orderproduct.id %}" 
+															class="btn btn-sm btn-outline-primary" 
+															data-bs-toggle="modal" data-bs-target="#exampleModal">
+															Placed
+														</a> {% endcomment %}
+														<button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter">
+															Placed
+														</button>
+													</td>
+												{% elif orderproduct.status == 'Shipped' %}
+													<td>
+														{% comment %} <a href="{%  url 'cancel_order' orderproduct.id %}" 
+															class="btn btn-sm btn-outline-info">
+															Shipped
+														</a> {% endcomment %}
+														<!-- Button trigger modal -->
+														<button type="button" class="btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+															Shipped
+														</button>
+													</td>
+												{% elif orderproduct.status == 'Accepted' %}
+													<td>
+														{% comment %} <a href="{%  url 'cancel_order' orderproduct.id %}" 
+															class="btn btn-sm btn-outline-dark" 
+															data-bs-toggle="modal" data-bs-target="#exampleModal">
+															Accepted
+														</a> {% endcomment %}
+														<button type="button" class="btn-sm btn-outline-info" data-toggle="modal" data-target="#exampleModalCenter">
+															Accepted
+														</button>
+													</td>
+												{% elif orderproduct.status == 'Delivered' %}
+													<td><button class="btn btn-sm btn-success" disabled>Delivered</button></td>
+												{% endif %}
+											</tr>
+
+											<!-- Modal -->
+											<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+												<div class="modal-dialog modal-dialog-centered" role="document">
+												<div class="modal-content">
+													<div class="modal-header">
+													<h5 class="modal-title" id="exampleModalLongTitle">Are you sure?</h5>
+													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+													</button>
+													</div>
+													<div class="modal-body">
+														Are you sure you want to cancel the order?....
+													</div>
+													<div class="modal-footer">
+														{% comment %} <button type="button" class="btn btn-primary">Cancel</button> {% endcomment %}
+														<a href="{%  url 'cancel_order' orderproduct.id %}" 
+															class="btn btn-danger" 
+															data-bs-toggle="modal" data-bs-target="#exampleModal">
+															Cancel
+														</a>
+														<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+													</div>
+												</div>
+												</div>
+											</div>
+											<!-- Modal Body End -->
+										{% endfor %}
+
+									</tbody>
+								</table>
+							</div>
+						</div> <!-- row.// -->
+
+						
+
+					</div> <!-- card-body .// -->
+
+				</article> <!-- order-group.// -->
+			</main>
+		</div> <!-- row.// -->
+	</div>
+
+
+</section>
+<!-- table -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+		
+<script>
+	$(document).ready( function () {
+		$('#myTable').DataTable();
+	} );
+</script>
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<!-- table end -->
+
+{% endblock %}

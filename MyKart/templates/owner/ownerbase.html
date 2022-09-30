@@ -32,6 +32,11 @@
 			content="width=device-width, initial-scale=1, maximum-scale=1"
 		/>
 
+		<!--data table -->
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+		<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+  		<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+
 		<!-- Google Font -->
 		<link
 			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
@@ -56,7 +61,11 @@
 		/>
 		<link rel="stylesheet" type="text/css" href="{% static 'vendors/styles/style.css' %}" />
 
-		
+		<link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+
+		<!--ChartJS -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+	
 	</head>
 	<body>
 
@@ -105,37 +114,6 @@
 								<i class="ion-arrow-down-c"></i>
 							</a>
 							<div class="dropdown-menu dropdown-menu-right">
-								{% comment %} <div class="form-group row">
-									<label class="col-sm-12 col-md-2 col-form-label"
-										>From</label
-									>
-									<div class="col-sm-12 col-md-10">
-										<input
-											class="form-control form-control-sm form-control-line"
-											type="text"
-										/>
-									</div>
-								</div>
-								<div class="form-group row">
-									<label class="col-sm-12 col-md-2 col-form-label">To</label>
-									<div class="col-sm-12 col-md-10">
-										<input
-											class="form-control form-control-sm form-control-line"
-											type="text"
-										/>
-									</div>
-								</div>
-								<div class="form-group row">
-									<label class="col-sm-12 col-md-2 col-form-label"
-										>Subject</label
-									>
-									<div class="col-sm-12 col-md-10">
-										<input
-											class="form-control form-control-sm form-control-line"
-											type="text"
-										/>
-									</div>
-								</div> {% endcomment %}
 								<div class="text-right">
 									<button class="btn btn-primary">Search</button>
 								</div>
@@ -271,11 +249,7 @@
 
 			<!--+++++++++++++++++++++++++++++++-->
 
-			{% comment %} <div class="github-link">
-				<a href="https://github.com/dropways/deskapp" target="_blank"
-					><img src="{% static 'vendors/images/github.svg' %}" alt=""
-				/></a>
-			</div> {% endcomment %}
+			
 		</div>
 	</div>
 
@@ -477,9 +451,7 @@
 									><span class="mtext">Home</span>
 								</a>
 								<ul class="submenu">
-									<li><a href="{% url 'owner' %}">Dashboard</a></li>
-									<li><a href="#">Dashboard style 2</a></li>
-									<li><a href="#">Dashboard style 3</a></li>
+									<li><a class="{% if '/owner/' == request.path %}active{% endif %}" href="{% url 'owner' %}">Dashboard</a></li>
 								</ul>
 							</li>
 							<li class="dropdown">
@@ -488,12 +460,8 @@
 									><span class="mtext">Users</span>
 								</a>
 								<ul class="submenu">
-									
-										<li><a href="{% url 'users' %}">View Users</a> </li>
-
+										<li><a class="{% if '/users/' == request.path %}active{% endif %}" href="{% url 'users' %}">View Users</a> </li>
 										{% comment %} <li><a href="{% url 'adduser' %}">Add User</a> </li> {% endcomment %}
-									
-
 								</ul>
 							</li>
 							<li class="dropdown">
@@ -504,11 +472,12 @@
 								<ul class="submenu">
 									<li><a href="{% url 'product' %}">View Products</a></li>
 									<li><a href="{% url 'addnewproduct' %}">Add Products</a></li>
+									<li><a href="{% url 'addproductgallery' %}">Add More Images</a></li>
 								</ul>
 							</li>
 							
 							
-							 <li class="dropdown">
+							<li class="dropdown">
 								<a href="javascript:;" class="dropdown-toggle">
 									<span class="micon bi bi-collection"></span
 									><span class="mtext"> Category </span>
@@ -520,152 +489,28 @@
 									
 								</ul>
 							</li>
-							{% comment %}
+							
 							<li class="dropdown">
 								<a href="javascript:;" class="dropdown-toggle">
 									<span class="micon bi bi-command"></span
-									><span class="mtext">Icons</span>
+									><span class="mtext">Manage Orders</span>
 								</a>
 								<ul class="submenu">
-									<li><a href="bootstrap-icon.html">Bootstrap Icons</a></li>
-									<li><a href="font-awesome.html">FontAwesome Icons</a></li>
-									<li><a href="foundation.html">Foundation Icons</a></li>
-									<li><a href="ionicons.html">Ionicons Icons</a></li>
-									<li><a href="themify.html">Themify Icons</a></li>
-									<li><a href="custom-icon.html">Custom Icons</a></li>
-								</ul>
-							</li> {% endcomment %}
-							{% comment %} <li class="dropdown">
-								<a href="javascript:;" class="dropdown-toggle">
-									<span class="micon bi bi-pie-chart"></span
-									><span class="mtext">Charts</span>
-								</a>
-								<ul class="submenu">
-									<li><a href="highchart.html">Highchart</a></li>
-									<li><a href="knob-chart.html">jQuery Knob</a></li>
-									<li><a href="jvectormap.html">jvectormap</a></li>
-									<li><a href="apexcharts.html">Apexcharts</a></li>
-								</ul>
-							</li> {% endcomment %}
-							{% comment %} <li class="dropdown">
-								<a href="javascript:;" class="dropdown-toggle">
-									<span class="micon bi bi-file-earmark-text"></span
-									><span class="mtext">Additional Pages</span>
-								</a>
-								<ul class="submenu">
-									<li><a href="video-player.html">Video Player</a></li>
-									<li><a href="login.html">Login</a></li>
-									<li><a href="forgot-password.html">Forgot Password</a></li>
-									<li><a href="reset-password.html">Reset Password</a></li>
-								</ul>
-							</li> {% endcomment %}
-							{% comment %} <li class="dropdown">
-								<a href="javascript:;" class="dropdown-toggle">
-									<span class="micon bi bi-bug"></span
-									><span class="mtext">Error Pages</span>
-								</a>
-								<ul class="submenu">
-									<li><a href="400.html">400</a></li>
-									<li><a href="403.html">403</a></li>
-									<li><a href="404.html">404</a></li>
-									<li><a href="500.html">500</a></li>
-									<li><a href="503.html">503</a></li>
-								</ul>
-							</li> {% endcomment %}
-
-							{% comment %} <li class="dropdown">
-								<a href="javascript:;" class="dropdown-toggle">
-									<span class="micon bi bi-back"></span
-									><span class="mtext">Extra Pages</span>
-								</a>
-								<ul class="submenu">
-									<li><a href="blank.html">Blank</a></li>
-									<li><a href="contact-directory.html">Contact Directory</a></li>
-									<li><a href="blog.html">Blog</a></li>
-									<li><a href="blog-detail.html">Blog Detail</a></li>
-									<li><a href="product.html">Product</a></li>
-									<li><a href="product-detail.html">Product Detail</a></li>
-									<li><a href="faq.html">FAQ</a></li>
-									<li><a href="profile.html">Profile</a></li>
-									<li><a href="gallery.html">Gallery</a></li>
-									<li><a href="pricing-table.html">Pricing Tables</a></li>
-								</ul>
-							</li> {% endcomment %}
-							{% comment %} <li class="dropdown">
-								<a href="javascript:;" class="dropdown-toggle">
-									<span class="micon bi bi-hdd-stack"></span
-									><span class="mtext">Multi Level Menu</span>
-								</a>
-								<ul class="submenu">
-									<li><a href="javascript:;">Level 1</a></li>
-									<li><a href="javascript:;">Level 1</a></li>
-									<li><a href="javascript:;">Level 1</a></li>
-									<li class="dropdown">
-										<a href="javascript:;" class="dropdown-toggle">
-											<span class="micon fa fa-plug"></span
-											><span class="mtext">Level 2</span>
-										</a>
-										<ul class="submenu child">
-											<li><a href="javascript:;">Level 2</a></li>
-											<li><a href="javascript:;">Level 2</a></li>
-										</ul>
-									</li>
-									<li><a href="javascript:;">Level 1</a></li>
-									<li><a href="javascript:;">Level 1</a></li>
-									<li><a href="javascript:;">Level 1</a></li>
-								</ul>
-							</li> {% endcomment %}
-							{% comment %} <li>
-								<a href="sitemap.html" class="dropdown-toggle no-arrow">
-									<span class="micon bi bi-diagram-3"></span
-									><span class="mtext">Sitemap</span>
-								</a>
-							</li> {% endcomment %}
-							{% comment %} <li>
-								<a href="chat.html" class="dropdown-toggle no-arrow">
-									<span class="micon bi bi-chat-right-dots"></span
-									><span class="mtext">Chat</span>
-								</a>
-							</li> {% endcomment %}
-							{% comment %} <li>
-								<a href="invoice.html" class="dropdown-toggle no-arrow">
-									<span class="micon bi bi-receipt-cutoff"></span
-									><span class="mtext">Invoice</span>
-								</a>
-							</li> {% endcomment %}
-							{% comment %} <li>
-								<div class="dropdown-divider"></div>
-							</li>
-							<li>
-								<div class="sidebar-small-cap">Extra</div>
-							</li>
-							<li>
-								<a href="javascript:;" class="dropdown-toggle">
-									<span class="micon bi bi-file-pdf"></span
-									><span class="mtext">Documentation</span>
-								</a>
-								<ul class="submenu">
-									<li><a href="introduction.html">Introduction</a></li>
-									<li><a href="getting-started.html">Getting Started</a></li>
-									<li><a href="color-settings.html">Color Settings</a></li>
-									<li>
-										<a href="third-party-plugins.html">Third Party Plugins</a>
-									</li>
+									<li><a href="{% url 'activeorders' %}">Active Orders</a></li>
+									<li><a href="{% url 'order_history' %}">Order History</a></li>
 								</ul>
 							</li>
-							<li>
-								<a
-									href="https://dropways.github.io/deskapp-free-single-page-website-template/"
-									target="_blank"
-									class="dropdown-toggle no-arrow"
-								>
-									<span class="micon bi bi-layout-text-window-reverse"></span>
-									<span class="mtext"
-										>Landing Page
-										<img src="vendors/images/coming-soon.png" alt="" width="25"
-									/></span>
+							<li class="dropdown">
+								<a href="javascript:;" class="dropdown-toggle">
+									<span class="micon bi bi-journal-text"></span
+									><span class="mtext">Reports</span>
 								</a>
-							</li> {% endcomment %}
+								<ul class="submenu">
+									<li><a href="{% url 'product_report' %}">Product Report</a></li>
+									<li><a href="{% url 'sales_report' %}">Sales Report</a></li>
+									
+								</ul>
+							</li> 
 						</ul>
 					</div>
 				</div>
@@ -685,6 +530,17 @@
          <!--  content -->
         {% endblock  %}
 		
+		<!-- table -->
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+		
+		<script>
+			$(document).ready( function () {
+				$('#myTable').DataTable();
+			} );
+		</script>
+		{% comment %} <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script> {% endcomment %}
+		<!-- table end -->
+		
 			</div>
 		</div>
 	</div>
@@ -701,12 +557,18 @@
 		<script src="{% static 'src/plugins/datatables/js/dataTables.responsive.min.js' %}"></script>
 		<script src="{% static 'src/plugins/datatables/js/responsive.bootstrap4.min.js' %}"></script>
 		<script src="{% static 'vendors/scripts/dashboard.js' %}"></script>
+
 		
 		<script 
 			src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
 			integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" 
 			crossorigin="anonymous">
 		</script>
+
+
+		<!-- table -->
+		<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+		<!-- table end -->
 		
 	</body>
 </html>

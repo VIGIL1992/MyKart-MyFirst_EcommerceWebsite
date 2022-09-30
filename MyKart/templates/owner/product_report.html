@@ -1,0 +1,75 @@
+{% extends 'owner/ownerbase.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="container" >
+	<section>
+		<div class="row active_user_table  shadow p-3 mb-5 bg-white rounded">
+			<div class="table-responsive">
+				<caption>
+					<p class="table_caption d-flex justify-content-center font-weight-bold mt-5"><h4>Product Report</h4></p>
+				</caption>
+			
+					
+				<div class="d-flex justify-content-end mb-4 px-10">
+					<a href="{% url 'product_export_csv' %}" class="btn btn-sm btn-success mr-2">Export	as CSV</a>
+					<a href="{% url 'product_export_pdf' %}" class="btn btn-sm btn-danger">Export as PDF</a>
+				</div>
+							
+				<table class="data-table table hover multiple-select-row" id="pro">
+					<thead>
+						<tr>
+							<th>Index</th>
+							<th>Product Name</th>
+                            <th>Category Name</th>
+                            <th>Rating</th>
+							<th >Price</th>
+							<th >Stock</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						{% for product in  products %}
+
+						<tr>
+							<th scope="row">{{forloop.counter}}</th>
+							<td>{{product.product_name}}</td>
+							<td>{{product.category}}</td>
+							<td>{{product.averageReview}}</td>
+                            <td>₹ {{product.price}}</td>
+                            <td>{{product.stock}}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section>
+	</div>  
+	
+	
+
+{% endblock %}
+
+{% block script %}
+
+
+
+
+
+<script>
+  $(document).ready( function () {
+	$('#pro').DataTable();
+} );
+</script>
+
+
+<script>
+	$(document).ready( function () {
+	  $('#order').DataTable();
+  } );
+  </script>
+
+{% endblock %}

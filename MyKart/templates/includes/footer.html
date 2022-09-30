@@ -11,11 +11,24 @@
 				<span  class="px-2">Calicut, Kerala</span>
 			</div>
 			<div class="col-md-2 text-md-right text-muted">
-				<i class="fab fa-lg fa-cc-visa"></i>
-				<i class="fab fa-lg fa-cc-paypal"></i>
-				<i class="fab fa-lg fa-cc-mastercard"></i>
+				<i class="fa fa-lg fa-cc-visa"></i>
+				{% comment %} <i class="fab fa-lg fa-cc-visa"></i> {% endcomment %}
+				<i class="fa fa-lg fa-cc-paypal"></i>
+				<i class="fa fa-lg fa-cc-mastercard"></i>
 			</div>
 		</section>
 	</div><!-- //container -->
 </footer>
 <!-- ========================= FOOTER END // ========================= -->
+
+<!-- =========== to open images properly in product detail page============== -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$('.thumb a').click(function(e){
+			e.preventDefault();
+			$('.mainImage img').attr('src', $(this).attr("href"));
+		})
+	})
+</script>
+

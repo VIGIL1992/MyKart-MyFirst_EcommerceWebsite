@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% include 'includes/alerts.html' %}
+
+
+<section class="section-conten padding-y bg">
+        {% include 'includes/alerts.html' %}
+        <div class="container">
+            <div class="row">
+                {% include 'includes/user_dashboard_sidebar.html' %}
+                <main class="col-md-9">
+                    <article class="card">
+                        <header class="card-header">
+                            <strong class="d-inline-block mr-3">Your Wishlist</strong>
+                            
+                        </header>
+
+
+                        <div class="card shadow-lg p-3 mb-5 bg-white rounded">
+                            <div class="cart-wrap">
+                                <div class="container">
+                                    <div class="row">
+                                        {% for product in products %}
+                                            <div class="col-md-4 mt-5">
+                                                <div class="card shadow-lg p-3 mb-5 bg-white rounded" style="width: 15rem; height:33rem;">
+                                                    <img class="card-img-top" src="{{ product.images.url }}" alt="Card image cap" style="width:15 rem; height:21rem;">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">{{product.product_name}}</h5>
+                                                        <h6 class="card-title">₹ {{product.price}}</h6>
+                                                        <!-- <p class="card-text">{{product.description}}</p> -->
+                                                        <div class="row">
+                                                            <a href="{{ product.get_url }}" class="btn btn-primary btn-sm">Buy Now</a>&nbsp;&nbsp;
+                                                            <!-- Button trigger modal -->
+                                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModalCenter">
+                                                                Remove
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLongTitle">Are you sure?</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Are you sure you want to remove the item?....
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a href="{% url 'delete_wishlist' product.id %}" class="btn btn-danger btn-sm">Remove</a>
+                                                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div> 
+                                            <!-- Modal Body End -->
+                                        {% endfor %}
+                                    </div>  <!-- row End// -->
+                                </div> <!-- container End// -->
+                            </div>
+                        </div> <!-- card end// -->
+                    </article>
+                </main>
+            </div> <!-- row End// -->
+        </div> <!-- container End// -->
+</section>
+
+{% endblock %}

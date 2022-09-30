@@ -18,7 +18,8 @@
 							<div class="form-group">
 							 {{form.as_p}} 
 							</div>
-
+							<h1>{{form.as_p.brand}}</h1>
+							<img id="output" src="{{form.id_images}}" width="200" >
                             <div class="form-group row">
 								
                                 <button class="btn btn-primary btn-sm" type="submit">Register</button>
@@ -28,4 +29,13 @@
 					</div>
 					
 					<!-- Default Basic Forms End -->
+
+
+					<script>
+						var loadFile = function(event) {
+							//var image = document.getElementById('output');
+							//image.src = URL.createObjectURL(event.target.files[0]);
+							document.getElementById('output').src = URL.createObjectURL(event.target.files[0]);
+						};
+						</script>				
 {% endblock %}
