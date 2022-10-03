@@ -24,12 +24,18 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
 
+# Twilio/  OTP
+from account.otp import sentOTP, checkOTP
+
 import requests
 
 # Create your views here.
 
 #This function will register new Users
 def register(request):
+    global phonenumber
+    if request.user.is_authenticated:
+        return redirect('index')
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
@@ -68,7 +74,10 @@ def register(request):
     return render(request, 'accounts/register.html', context)
 
 #This function will check the Username and Password
+
 def login(request):
+    if request.user.is_authenticated:
+        return redirect('index')
     if request.method == "POST":
         email = request.POST['email']
         password = request.POST['password']
@@ -115,6 +124,7 @@ def login(request):
 
 @login_required(login_url = 'login')
 def logout(request):
+    
    auth.logout(request)
    messages.success(request, 'You are Logout sucessfully')
    return redirect('login')
@@ -138,6 +148,46 @@ def activate(request, uidb64, token):
     else:
         messages.success(request, 'Invalid activation link')
         return redirect('register')
+
+####################################################################################
+
+def signinotp(request):
+    if request.method == "POST":
+        mobile = request.POST["phone"]
+        try:
+            if Account.objects.get(phone_number=mobile):
+                sentOTP(mobile)
+                request.session["checkmobile"] = mobile
+                return redirect("otpcheck")
+        except:
+            messages.info(request, "User not registered")
+            return redirect("login")
+    return render(request, "accounts/signinotp.html")
+
+def otpcheck(request):
+    if request.user.is_authenticated:
+        return redirect("home")
+    if request.method == "POST":
+        otp = request.POST["otpcode"]
+        mobile = request.session["checkmobile"]
+        a = checkOTP(mobile, otp)
+        if a:
+            user = Account.objects.get(phone_number=mobile)
+            login(request, user)
+            messages.success(request, "Autheticated Successfully")
+            return redirect("home")
+
+        else:
+            messages.info(request, "OTP not Valid")
+            return redirect("otpcheck")
+
+    return render(request, "accounts/otpcheck.html")
+
+
+def resend_otp(request):
+    mobile = request.session["checkmobile"]
+    sentOTP(mobile)
+    return redirect("otpcheck")
 
 ####################################################################################        
 #This function will take to the user dashboard and its functions        

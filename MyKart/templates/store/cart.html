@@ -35,7 +35,7 @@
                                             <figcaption class="info">
                                                 <a href="{{cart_item.product.get_url }}" class="title text-dark">{{ cart_item.product.product_name}}</a>
                                                 <p class="text-muted small">
-                                                    {% comment %} Ram: 25 Mpx <br>  {% endcomment %}
+                                                    
                                                     Brand: {{ cart_item.product.brand}} <br>
                                                     {% if cart_item.variations.all %}
                                                         {% for item in cart_item.variations.all %}
@@ -53,25 +53,15 @@
                                                 <input type="hidden" class="prod_id" value="{{ cart_item.product.id }}">   
                                                 {% csrf_token %}         
                                                 <div class="input-group-append">
-                                                    {% comment %} <form action="{% url 'add_cart' cart_item.product.id %}" method="POST">
-                                                        {% csrf_token %}
-                                                        {% for item in cart_item.variations.all %}
-                                                        <input type="hidden" name="{{ item.variation_category | lower }}" value="{{ item.variation_value | capfirst }}">
-                                                        {% endfor %}
-                                                        <button  class="btn btn-light" type="submit" id="button-minus"> 
-                                                            <i class="fa fa-chevron-up"></i>
-                                                        </button> 
-                                                    </form> {% endcomment %}
-                                                    <button  class="btn btn-light changeQuantity increment-btn" type="submit" id="button-minus"> 
+                                                   
+                                                    <button  class="btn btn-light changeQuantity increment-btn" type="submit" id="button-minus" onclick="a( '{{ amount }}', '{{ tax }}', '{{total}}', '')"> 
                                                         <i class="fa fa-chevron-up"></i>
                                                     </button>
                                                 </div>
                                                 <input type="text" class="form-control qty-input"  value="{{ cart_item.quantity}}">
                                                 <div class="input-group-prepend">
-                                                    {% comment %} <a href="{% url 'remove_cart' cart_item.product.id cart_item.id  %}" class="btn btn-light decrement-btn" type="button" id="button-plus"> 
-                                                        <i class="fa fa-chevron-down"></i> 
-                                                    </a> {% endcomment %}
-                                                    <button  class="btn btn-light changeQuantity decrement-btn" type="submit" id="button-plus"> 
+                                                   
+                                                    <button  class="btn btn-light changeQuantity decrement-btn" type="submit" id="button-plus" onclick="a( '{{ amount }}', '{{ tax }}', '{{total}}', '{{ cart_item.sub_total}}')"  > 
                                                         <i class="fa fa-chevron-down"></i>
                                                     </button>
                                                 </div>
@@ -80,7 +70,7 @@
                                     </td> <!-- Quantity End -->
                                     <td> <!-- Price -->
                                         <div class="price-wrap"> 
-                                            <var class="price">₹ {{ cart_item.sub_total}}</var> 
+                                            <var id="price" class="price">₹ {{ cart_item.sub_total}}</var> 
                                             <small class="text-muted"> ₹ {{ cart_item.product.price}} each </small> 
                                         </div> <!-- price-wrap .// -->
                                     </td> <!-- Price End -->
@@ -119,7 +109,7 @@
                 </aside> <!-- col.// -->
                 <aside class="col-lg-3">
             
-                    <div class="card">
+                    <div id="card" class="card">
                     <div class="card-body">
                         <dl class="dlist-align">
                             <dt>Total price:</dt>
@@ -195,14 +185,18 @@
 
                 },
                 success: function(response) {
-                    
+                    $("#card").load(location.href + " #card");
+                    $("#price").load(location.href + " #price");
+                    $("#cartCount").load(location.href + " #cartCount");
                 }
             });
 
         }); 
         
+   
     });
 </script>
+
 
 {% endblock  %}
 

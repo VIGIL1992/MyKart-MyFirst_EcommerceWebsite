@@ -28,7 +28,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -181,8 +181,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 RAZOR_KEY_ID = config('RAZOR_KEY_ID')
 RAZOR_KEY_SECRET = config('RAZOR_KEY_SECRET')
 
-# ACCOUNT_SID = config("ACCOUNT_SID")
-# AUTH_TOKEN = config("AUTH_TOKEN")
-# SERVICES_KEY_OTP = config("SERVICES_KEY_OTP")
+#OTP
+ACCOUNT_SID = config("ACCOUNT_SID")
+AUTH_TOKEN = config("AUTH_TOKEN")
+SERVICES_KEY_OTP = config("SERVICES_KEY_OTP")
 
 #PAYPAL
