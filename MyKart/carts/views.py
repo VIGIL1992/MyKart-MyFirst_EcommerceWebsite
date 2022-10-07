@@ -223,6 +223,7 @@ def cart(request, total=0, quantity=0, cart_items=None):
     return render(request, 'store/cart.html', context)
 
 # This function will take us to checkout
+@never_cache
 @login_required(login_url='login')
 def checkout(request, total=0, quantity=0, cart_items=None):
     try:
